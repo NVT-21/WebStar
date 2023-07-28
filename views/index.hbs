@@ -1,0 +1,87 @@
+
+<body>
+    <div class="container container-mb">
+        <div class="containerSky containerSky-mb">
+            <div class="sky">
+                {{#each listStar}}
+                <div class="star" style="top:{{this.x}}%; left: {{this.y}}%;"> </div>
+                
+
+                 {{/each}}
+             
+            </div>
+        </div>
+        
+        <div class="containerInput containerInput-mb">
+            <h1 class="title">Tạo ngôi sao mới</h1>
+            <p><span style="color: brown;">Hướng dẫn : </span>Bạn sẽ nhập tọa độ bạn muốn ở bên dưới,
+            tọa độ này có gốc tọa độ ở góc trên cùng bên trái của màn hình , tọa độ bạn nhập có độ dài tương ứng 
+            với phần trăm độ dài của màn hình. X tương ứng với chiều dọc , Y tương ứng với chiều ngang
+            </p>
+            <p><span style="color: brown;">Chú ý:</span>Độ dài các điểm có giới hạn từ 0 -> 98 nhập ngoài khoảng này sẽ bị lỗi. </p>
+            <p></p>
+           <form id="starForm" action="#" method="POST">
+            <div class="contentInput">
+                <label for="inputX">x:</label>
+                <input type="text" id="x" name="x" placeholder="">
+            </div>
+            <div class="contentInput">
+                <label for="inputY">y:</label>
+                <input type="text" id="y" name="y" placeholder="">
+            </div>
+            <button id="createStarButton">Tạo mới</button>
+            </form>
+
+        </div>
+            
+        
+    </div>
+   
+   <script>
+        document.getElementById('starForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+           
+           const x = document.getElementById('x').value;
+            const y = document.getElementById('y').value;
+
+            fetch('/api/star/createNew', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ x, y })
+            })
+            .then(response => {
+                 if (!response.ok) {
+                    return response.json()  // Parse response data as JSON
+                    .then(data => {
+                        // Handle the response data when not OK
+                        throw new Error(data.error); 
+                    });
+                 }
+                return response.json();
+            })  
+            .then(data => {
+                // Xử lý phản hồi thành công ở đây (nếu cần)
+                   alert("Tạo sao thành công!");
+
+    // Tải lại trang sau khi tạo sao thành công
+                    location.reload();
+            })
+            .catch(error => {
+                
+             alert(error.message)
+
+                // Hiển thị thông báo lỗi từ phản hồi của Backend
+                
+               
+            });
+
+        });
+     
+        
+    </script>
+    
+</body>
+</html>
