@@ -7,5 +7,6 @@ How to initiate a project
 
 + Download the project
 + Run the command : npm i
-note:Make sure you have installed nodejs
+  
+Note:Make sure you have installed nodejs
 
